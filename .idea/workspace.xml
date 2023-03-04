@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c240f8e-d47e-4307-b689-160ba4d2b787" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Tile.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Model.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Model.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
