@@ -1,3 +1,4 @@
 fun main(){
-    println("Hello Web")
+    val model = Model()
+    model.printTiles()
 }

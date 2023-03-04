@@ -1,6 +1,6 @@
 import java.awt.Color
 
-data class Tile constructor (val value: Int = 0) {
+data class Tile constructor (var value: Int = 0) {
     // return true if the value of the Tile weight is 0 else false.
     fun isEmpty(): Boolean {
         return value == 0
