@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Bool
 import kotlin.random.Random
 
 /**
@@ -49,29 +50,27 @@ class Model() {
         return emptyTiles
     }
 
-    fun resetGameTiles(){
-        // Initializes the gameTiles reference attribute
-        gameTiles = Array(FIELD_WIDTH) { Array(FIELD_WIDTH) { Tile() } }
-        // Begin the game by add 2 weighted tiles to the board
-        addTile()
-        addTile()
-    }
-
-    fun consolidateTiles(tiles: Array<Tile>){
+    fun consolidateTiles(tiles: Array<Tile>): Boolean{
         var insert = 0
         var index = 0
+        var consolidated = false
+
         // sort the array by move all empty tiles to the right
         while (index < tiles.size){
             if (!tiles[index].isEmpty() && index != insert){
                 tiles[insert++] = Tile(tiles[index].value)
                 tiles[index] = Tile()
+                consolidated = true
             }
             index++
         }
+
+        return consolidated
     }
 
-    private fun mergeTiles(tile: Array<Tile>){
+    private fun mergeTiles(tile: Array<Tile>): Boolean{
         var i = 0
+        var merged = false
 
         while (i < tile.size - 1){
             if (tile[i].isEmpty()) {
@@ -95,9 +94,29 @@ class Model() {
                     j++
                 }
                 tile[tile.size - 1] = Tile()
+                merged = true
             }
             i++
         }
-        println(tile)
+        return merged
+    }
+
+    fun left(){
+        var willAddTile = false
+
+        for (row in gameTiles!!){
+            if (consolidateTiles(row) || mergeTiles(row))
+                willAddTile = true
+        }
+
+        if (willAddTile) addTile()
+    }
+
+    fun resetGameTiles(){
+        // Initializes the gameTiles reference attribute
+        gameTiles = Array(FIELD_WIDTH) { Array(FIELD_WIDTH) { Tile() } }
+        // Begin the game by add 2 weighted tiles to the board
+        addTile()
+        addTile()
     }
 }
