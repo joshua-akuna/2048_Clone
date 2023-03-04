@@ -7,9 +7,12 @@ import kotlin.random.Random
 class Model() {
     // defines the width of the board.
     val FIELD_WIDTH: Int = 4
-
     // define a 2-D array for the game Tiles.
     private var gameTiles: Array<Array<Tile>>? = null
+        get() = field
+    private var score: Int = 0
+        get() = field
+    private var maxTile = 0
         get() = field
 
     init {
@@ -54,13 +57,47 @@ class Model() {
         addTile()
     }
 
-    fun printTiles(){
-        for (row in gameTiles!!){
-            for (tile in row){
-                println(tile.getTileColor())
+    fun consolidateTiles(tiles: Array<Tile>){
+        var insert = 0
+        var index = 0
+        // sort the array by move all empty tiles to the right
+        while (index < tiles.size){
+            if (!tiles[index].isEmpty() && index != insert){
+                tiles[insert++] = Tile(tiles[index].value)
+                tiles[index] = Tile()
             }
+            index++
         }
     }
 
+    private fun mergeTiles(tile: Array<Tile>){
+        var i = 0
 
+        while (i < tile.size - 1){
+            if (tile[i].isEmpty()) {
+                i++
+                continue
+            }
+
+            if(tile[i].value == tile[i + 1].value){
+                // add the values of consecutive tiles if their weight is equal
+                var currentVal = tile[i].value * 2
+                // updates the maxTile attribute
+                maxTile = if (currentVal > maxTile) currentVal else maxTile
+                // updates the weight of the current tile
+                tile[i] = Tile(currentVal)
+                // updates the current score of the game
+                score += currentVal
+                // moves the remaining tiles to the left
+                var j = i + 1
+                while (j < tile.size - 1){
+                    tile[j] = Tile(tile[j + 1].value)
+                    j++
+                }
+                tile[tile.size - 1] = Tile()
+            }
+            i++
+        }
+        println(tile)
+    }
 }
